@@ -43,8 +43,9 @@ class MultiModelMimicModel(ExplainableModelMixin):
 
     def explain_local(self, X, y=None):
         """
+        # TODO explain in batches instead of single predictions
         :param X: data matrix
-        :param y: list of features or binary multilabel
+        :param y: list of features or binary multilabel if None will predict using own model (not recommended)
         :return: list of explanations per label predicted for each instance in X
         """
         if y is None:
@@ -64,7 +65,6 @@ class MultiModelMimicModel(ExplainableModelMixin):
 
     def fit(self, X, y, positive_negative_ratio=1.0):
         """
-
         :param X: data matrix
         :param y: list of features or binary multilabel
         :param positive_negative_ratio:
@@ -88,6 +88,7 @@ class MultiModelMimicModel(ExplainableModelMixin):
 
     def predict(self, X, y=None):
         """
+        #TODO predict in batches
 
         :param X: data matrix (#instances x #features)
         :param y: list of features or binary multilabel
@@ -112,8 +113,8 @@ class MultiModelMimicModel(ExplainableModelMixin):
 
         :param X: data matrix (#instances x #features)
         :param y: list of features or binary multilabel
-        :param positive_negative_ratio:
-        :return:
+        :param positive_negative_ratio: the ratio between positive and negative instances
+        :return precision, recall, f1 for each model using the models in 4M
         """
         labels = self._get_labels(y)  # Get all possible labels
         indices = self._get_indices(y)  # Get all indices for each label
@@ -162,7 +163,6 @@ class MultiModelMimicModel(ExplainableModelMixin):
 
     def _get_indices(self, y):
         """
-
         :param y:
         :return: a dict for each label with indices of instances that are labeled with the label
         """

@@ -46,6 +46,9 @@ class InterpretableLinearRegressionMixin(ExplainableModelMixin):
         coef_per_class = dict(zip(self.classes_, self.coef_))
         binary_classifier = len(coef_per_class.keys()) == 1
         explanations = []
+        if binary_classifier:
+            coef = coef_per_class[0]
+            return np.multiply(X, coef)
         for instance, prediction in zip(X, y):
             if binary_classifier:
                 prediction = 0
